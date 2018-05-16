@@ -10,7 +10,7 @@ namespace CodingChallenge.Core
     /// This supports other interest calculation methods through override.
     /// Difficult to write an interface in that manner.
     /// </summary>
-    public abstract class CreditCard
+    public abstract class CreditCard : ICalculateInterest
     {
         protected CreditCard(ICardType cardType)
         {

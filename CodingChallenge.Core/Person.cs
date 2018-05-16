@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CodingChallenge.Interfaces;
 
 namespace CodingChallenge.Core
 {
-    public class Wallet : ICalculateInterest
+    public class Person : ICalculateInterest
     {
-        public ICollection<CreditCard> CreditCards { get; set; }
+        public ICollection<Wallet> Wallets { get; set; }
 
         public decimal CalculateInterest()
         {
-            return CreditCards.Sum(creditCard => creditCard.CalculateInterest());
+            return Wallets.Sum(w => w.CalculateInterest());
         }
     }
 }
