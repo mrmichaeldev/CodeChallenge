@@ -6,9 +6,9 @@ using CodingChallenge.Interfaces;
 
 namespace CodingChallenge.Core
 {
-    public class Person : ICalculateInterest
+    public class Person : IPerson
     {
-        public ICollection<Wallet> Wallets { get; set; }
+        public IList<IWallet> Wallets { get; } = new List<IWallet>();
 
         public decimal CalculateInterest()
         {

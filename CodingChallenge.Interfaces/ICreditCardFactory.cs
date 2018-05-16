@@ -4,10 +4,8 @@ using System.Text;
 
 namespace CodingChallenge.Interfaces
 {
-    public interface ICreditCard
+    public interface ICreditCardFactory
     {
-        ICardType CardType { get; set; }
-
-        decimal Balance { get; set; }
+        CreditCard GetCreditCard(ICardType cardType);
     }
 }

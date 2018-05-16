@@ -5,9 +5,9 @@ using CodingChallenge.Interfaces;
 
 namespace CodingChallenge.Core
 {
-    public class Wallet : ICalculateInterest
+    public class Wallet : IWallet
     {
-        public ICollection<CreditCard> CreditCards { get; set; }
+        public IList<CreditCard> CreditCards { get; } = new List<CreditCard>();
 
         public decimal CalculateInterest()
         {
