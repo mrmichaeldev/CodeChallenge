@@ -9,7 +9,7 @@ namespace CodingChallenge.Core
     {
         public IList<CreditCard> CreditCards { get; } = new List<CreditCard>();
 
-        public decimal CalculateInterest()
+        public decimal CalculateTotalInterest()
         {
             return CreditCards.Sum(creditCard => creditCard.CalculateInterest());
         }

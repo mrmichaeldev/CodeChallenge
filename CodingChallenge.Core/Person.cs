@@ -10,9 +10,9 @@ namespace CodingChallenge.Core
     {
         public IList<IWallet> Wallets { get; } = new List<IWallet>();
 
-        public decimal CalculateInterest()
+        public decimal CalculateTotalInterest()
         {
-            return Wallets.Sum(w => w.CalculateInterest());
+            return Wallets.Sum(w => w.CalculateTotalInterest());
         }
     }
 }
