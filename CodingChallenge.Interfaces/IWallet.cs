@@ -2,8 +2,10 @@
 
 namespace CodingChallenge.Interfaces
 {
-    public interface IWallet : ICalculateInterest
+    public interface IWallet
     {
         IList<CreditCard> CreditCards { get; }
+
+        decimal CalculateTotalInterest();
     }
 }

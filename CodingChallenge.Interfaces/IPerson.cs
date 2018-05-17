@@ -4,8 +4,10 @@ using System.Text;
 
 namespace CodingChallenge.Interfaces
 {
-    public interface IPerson : ICalculateInterest
+    public interface IPerson
     {
         IList<IWallet> Wallets { get; }
+
+        decimal CalculateTotalInterest();
     }
 }

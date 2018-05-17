@@ -29,6 +29,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,9 +51,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MockCardTypes\MockDiscoverCardType.cs" />
     <Compile Include="MockCreditCardFactory.cs" />
-    <Compile Include="MockSimpleInterestCreditCard.cs" />
+    <Compile Include="MockCreditCard.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodingChallenge.Core\CodingChallenge.Core.csproj">
+      <Project>{90845179-31c0-45f4-b3b6-dbe47bdb1e98}</Project>
+      <Name>CodingChallenge.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodingChallenge.Interfaces\CodingChallenge.Interfaces.csproj">
       <Project>{654ff241-bf50-4b0f-b681-b61b9ba41a0b}</Project>
       <Name>CodingChallenge.Interfaces</Name>

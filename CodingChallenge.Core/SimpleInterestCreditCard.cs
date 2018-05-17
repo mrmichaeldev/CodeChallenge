@@ -10,7 +10,7 @@ namespace CodingChallenge.Core
 
         public override decimal CalculateInterest()
         {
-            return Balance * CardType.InterestRate;
+            return Balance * InterestRate;
         }
     }
 }
