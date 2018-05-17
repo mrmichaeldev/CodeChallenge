@@ -1,28 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CodingChallenge.Core;
-using CodingChallenge.Interfaces;
-using CodingChallenge.Core.CardTypes;
-using Ninject;
-using CodingChallenge.Interfaces.Factories;
+﻿using CodingChallenge.Core.CardTypes;
 using CodingChallenge.Core.Factories;
+using CodingChallenge.Interfaces;
+using CodingChallenge.Interfaces.Factories;
 using CodingChallenge.Tests.MockFactories;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ninject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CodingChallenge.Tests
+namespace CodingChallenge.Tests.MyTestCases
 {
-    [TestClass]
-    public class TestCase1
+    class MyTestCase1
     {
         private static readonly IKernel Kernel = new StandardKernel();
-        private readonly BasePersonFactory _personFactory = 
+        private readonly BasePersonFactory _personFactory =
             Kernel.Get<BasePersonFactory>();
 
-        static TestCase1()
+        static MyTestCase1()
         {
-            Kernel.Bind<BaseCreditCardFactory>().To<MockCreditCardFactory>();
-            Kernel.Bind<BaseWalletFactory>().To<WalletFactory>();
-            Kernel.Bind<BasePersonFactory>().To<PersonFactory>();
+            Kernel.Bind<BaseCreditCardFactory>().To<CreditCardFactory>();
+            Kernel.Bind<BaseWalletFactory>().To<MockWalletFactory>();
+            Kernel.Bind<BasePersonFactory>().To<MockPersonFactory>();
         }
 
         private readonly ICardType DiscoverCardType = new DiscoverCardType();
@@ -43,34 +44,15 @@ namespace CodingChallenge.Tests
             _person = _personFactory.GetPerson(cardTypesList);
             var wallet = _person.Wallets[0];
 
-
             _visaCard = wallet.CreditCards[0];
             _mcCard = wallet.CreditCards[1];
             _discoverCard = wallet.CreditCards[2];
         }
 
         [TestMethod]
-        public void AssertVisaCardInterest()
+        public void TestCalculateSimpleInterest()
         {
             Assert.AreEqual(10, _visaCard.CalculateInterest());
-        }
-
-        [TestMethod]
-        public void TestMCCardInterest()
-        {
-            Assert.AreEqual(5, _mcCard.CalculateInterest());
-        }
-
-        [TestMethod]
-        public void AssertDiscoverCardInterest()
-        {
-            Assert.AreEqual(1, _discoverCard.CalculateInterest());
-        }
-
-        [TestMethod]
-        public void TestPersonInterest()
-        {
-            Assert.AreEqual(16, _person.CalculateTotalInterest());
         }
     }
 }

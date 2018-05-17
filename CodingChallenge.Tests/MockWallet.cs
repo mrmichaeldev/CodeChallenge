@@ -1,18 +1,19 @@
-﻿using System;
+﻿using CodingChallenge.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CodingChallenge.Interfaces;
-using Ninject;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace CodingChallenge.Core
+namespace CodingChallenge.Tests
 {
-    public class Wallet : IWallet
+    public class MockWallet : IWallet
     {
         public IList<CreditCard> CreditCards { get; } = new List<CreditCard>();
 
         public decimal CalculateTotalInterest()
         {
-            return CreditCards.Sum(creditCard => creditCard.CalculateInterest());
+            return 1;
         }
     }
 }

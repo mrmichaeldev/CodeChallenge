@@ -4,68 +4,76 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CodingChallenge.Core;
 using CodingChallenge.Interfaces;
 using CodingChallenge.Core.CardTypes;
+using CodingChallenge.Interfaces.Factories;
+using CodingChallenge.Core.Factories;
+using CodingChallenge.Tests.MockFactories;
+using Ninject;
 
 namespace CodingChallenge.Tests
 {
     [TestClass]
     public class TestCase3
     {
+        private static readonly IKernel Kernel = new StandardKernel();
+        private readonly BasePersonFactory _personFactory =
+            Kernel.Get<BasePersonFactory>();
+
+        static TestCase3()
+        {
+            Kernel.Bind<BaseCreditCardFactory>().To<MockCreditCardFactory>();
+            Kernel.Bind<BaseWalletFactory>().To<WalletFactory>();
+            Kernel.Bind<BasePersonFactory>().To<PersonFactory>();
+        }
+
         private readonly ICardType DiscoverCardType = new DiscoverCardType();
         private readonly ICardType VisaCardType = new VisaCardType();
         private readonly ICardType MCCardType = new MCCardType();
 
-        private CreditCard _mcCard1, _mcCard2, _mcCard3, _visaCard;
-        private IWallet _wallet1, _wallet2;
         private IPerson _person1, _person2;
-
+        private IWallet _wallet1, _wallet2;
 
         [TestInitialize]
         public void Init()
         {
-            _mcCard1 = new MockCreditCard(MCCardType);
-            _mcCard2 = new MockCreditCard(MCCardType);
-            _mcCard3 = new MockCreditCard(MCCardType);
-            _visaCard = new MockCreditCard(VisaCardType);
+            var cardTypesList1 = new[]
+            {
+                new [] { MCCardType, MCCardType, VisaCardType }
+            };
 
-            _wallet1 = new Wallet();
-            _wallet1.CreditCards.Add(_mcCard1);
-            _wallet1.CreditCards.Add(_mcCard2);
+            var cardTypesList2 = new[]
+            {
+                new [] { VisaCardType, MCCardType }
+            };
 
-            _person1 = new Person();
-            _person1.Wallets.Add(_wallet1);
+            _person1 = _personFactory.GetPerson(cardTypesList1);
+            _person2 = _personFactory.GetPerson(cardTypesList2);
 
-            _wallet2 = new Wallet();
-            _wallet2.CreditCards.Add(_mcCard3);
-            _wallet2.CreditCards.Add(_visaCard);
-
-            _person2 = new Person();
-            _person2.Wallets.Add(_wallet2);
+            _wallet1 = _person1.Wallets[0];
+            _wallet2 = _person2.Wallets[0];
         }
 
         [TestMethod]
         public void Wallet1Interest()
         {
-            Assert.AreEqual(_wallet1.CalculateTotalInterest(), _mcCard1.CalculateInterest() +
-                _mcCard2.CalculateInterest());
+            Assert.AreEqual(20, _wallet1.CalculateTotalInterest());
         }
 
         [TestMethod]
         public void Wallet2Interest()
         {
-            Assert.AreEqual(_wallet2.CalculateTotalInterest(), _mcCard3.CalculateInterest() +
-                _visaCard.CalculateInterest());
+            Assert.AreEqual(15, _wallet2.CalculateTotalInterest());
         }
 
         [TestMethod]
         public void Person1Interest()
         {
-            Assert.AreEqual(_person1.CalculateTotalInterest(), _wallet1.CalculateTotalInterest());
+            Assert.AreEqual(20, _person1.CalculateTotalInterest());
         }
 
         [TestMethod]
         public void Person2Interest()
         {
-            Assert.AreEqual(_person2.CalculateTotalInterest(), _wallet2.CalculateTotalInterest());
+            Assert.AreEqual(15, _person2.CalculateTotalInterest());
         }
     }
 }
